@@ -1,0 +1,56 @@
+# Ignore bundler config.
+/.bundle
+
+# Ignore the default SQLite database.
+db/*.sqlite3
+db/*.sqlite3-journal
+
+# Ignore all logfiles and tempfiles.
+log/*
+tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# Ignore uploaded files in development
+storage/*
+!/storage/.keep
+
+# Ignore master key in case it's not shared
+config/master.key
+config/credentials.yml.enc
+
+# Ignore node modules and Yarn files
+node_modules/
+yarn-error.log
+
+# Ignore precompiled assets
+public/assets
+public/packs
+public/packs-test
+public/packs-test/*
+public/packs/*
+public/*.map
+
+# Ignore byebug command history file.
+.byebug_history
+
+# Ignore Docker files and system
+docker/*.pid
+docker/postgresql/*
+docker/logs/*
+docker/storage/*
+docker/config/supervisord.conf
+docker/config/conf.d/*
+docker/config/nginx.conf
+
+# Ignore vendor cache
+vendor/bundle
+vendor/cache
+vendor/ruby
+
+# Ignore system files
+*.swp
+*.swo
+.DS_Store
+.env
+.env.*

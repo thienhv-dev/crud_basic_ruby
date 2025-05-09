@@ -1,0 +1,6 @@
+.idea
+/apache_log
+/mysql_data
+/postgresql
+.env
+.DS_Store
