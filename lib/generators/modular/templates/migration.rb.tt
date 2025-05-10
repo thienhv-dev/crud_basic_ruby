@@ -1,0 +1,13 @@
+# This class defines a database migration for creating a table.
+# It uses ActiveRecord's migration framework to define the structure of the table.
+
+class <%= migration_name.camelize %> < ActiveRecord::Migration[7.0]
+  # The `change` method defines the changes to be made to the database schema.
+  # In this case, it creates a new table with a name derived from the migration name.
+  def change
+    create_table :<%= migration_name.sub(/^create_/, '').sub(/_table$/, '') %> do |t|
+      # Adds `created_at` and `updated_at` timestamp columns to the table.
+      t.timestamps
+    end
+  end
+end

@@ -15,7 +15,7 @@ services:
     volumes:
       - ./:/var/www/html:cached
       - ./docker/config/supervisord.conf:/etc/supervisor/conf.d/supervisord.conf
-      - bundle:/var/www/html/vendor/bundle
+      - ./vendor/bundle:/var/www/html/vendor/bundle
     environment:
       - RAILS_ENV=${RAILS_ENV}
     links:

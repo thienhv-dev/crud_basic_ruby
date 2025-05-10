@@ -1,0 +1,11 @@
+# This module defines the structure for an entity model within a modular application.
+# It is designed to be used as a template for generating new models.
+
+module <%= module_name.camelize %>
+  module Entities
+    # The <%= model_name.camelize %> class inherits from ApplicationRecord
+    # and represents a database-backed entity in the application.
+    class <%= model_name.camelize %> < ApplicationRecord
+    end
+  end
+end

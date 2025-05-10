@@ -1,0 +1,6 @@
+# modules/<%= module_name.underscore %>/routes/web.rb
+
+scope module: :<%= module_name.underscore %> do
+  # Example:
+  # get 'dashboard', to: '<%= module_name.underscore %>#dashboard'
+end
