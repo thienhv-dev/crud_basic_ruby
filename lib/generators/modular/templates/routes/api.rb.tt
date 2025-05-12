@@ -1,10 +1,7 @@
 # modules/<%= module_name.underscore %>/routes/api.rb
 
-namespace :api do
-  namespace :v1 do
-    namespace :<%= module_name.underscore %> do
-      # Example:
-      # get 'example', to: '<%= module_name.underscore %>#example'
-    end
+scope 'api/v1' do
+  scope '<%= module_name.underscore %>', module: '<%= module_name.underscore %>/http/controllers' do
+    # get '', to: '<%= module_name.underscore %>#index'
   end
 end

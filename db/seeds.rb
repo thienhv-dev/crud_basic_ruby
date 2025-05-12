@@ -7,3 +7,8 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+
+Dir[Rails.root.join('modules', '*', 'database', 'seeds', '**', '*_seeds.rb')].sort.each do |seed_file|
+  puts "Seeding from #{seed_file}"
+  load seed_file
+end

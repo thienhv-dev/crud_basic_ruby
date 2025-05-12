@@ -20,6 +20,7 @@ RUN apt-get update -qq && \
       sqlite3 \
       libsqlite3-dev \
       libyaml-dev \
+      libpq-dev \
       build-essential \
       git \
       && rm -rf /var/lib/apt/lists /var/cache/apt/archives

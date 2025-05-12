@@ -140,4 +140,12 @@ rails g modular:make_service ABCService ModuleName --with-base-repository Genera
 rails g modular:make_repository ABCRepository ModuleName --model=ABC      Generate Repository of module
 rails g modular:make_enum ABCEnum ModuleName                              Generate Enum of module
 rails g modular:make_resource ABCResource ModuleName                      Generate Transformers of module
+rails g modular:make_seed ABC ModuleName                                  Generate Seeder of module
+```
+
+Run command to seed data to database:
+```shell
+rails db:migrate                Run all migration
+rails db:seed                   Run all seeder
+rails db:seed:{name_file}:run   Run seeder file name in modules
 ```

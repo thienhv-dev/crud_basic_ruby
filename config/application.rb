@@ -26,5 +26,9 @@ module App
     config.autoload_paths << Rails.root.join('lib')
     config.eager_load_paths << Rails.root.join('lib')
     config.autoload_paths += Dir[Rails.root.join('modules')]
+    config.eager_load_paths += Dir[Rails.root.join('modules')]
+    config.paths['db/migrate'].concat(
+      Dir[Rails.root.join('modules', '*', 'database', 'migrations')].map(&:to_s)
+    )
   end
 end
