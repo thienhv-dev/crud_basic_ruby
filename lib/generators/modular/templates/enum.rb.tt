@@ -1,0 +1,40 @@
+# This module defines an enumeration class within a modular application structure.
+# It is designed to provide a set of predefined values and utility methods for working with them.
+
+module <%= @module_name.camelize %>
+  module Enums
+    # The <%= @enum_name.camelize %> class provides a collection of predefined values
+    # and methods to interact with these values.
+    class <%= @enum_name.camelize %>
+      # A constant hash that defines the enumeration values.
+      # Keys represent symbolic names, and values are their corresponding integer representations.
+      VALUES = {
+        sample_one: 1,
+        sample_two: 2
+      }.freeze
+
+      # Returns all enumeration values as a hash.
+      #
+      # @return [Hash] The hash of all enumeration values.
+      def self.all
+        VALUES
+      end
+
+      # Returns an array of options for use in forms or dropdowns.
+      # Each option is represented as a pair of a human-readable name and its value.
+      #
+      # @return [Array<Array<String, Integer>>] An array of options with humanized names and values.
+      def self.options
+        VALUES.map { |k, v| [k.to_s.humanize, v] }
+      end
+
+      # Finds the symbolic name for a given value.
+      #
+      # @param value [Integer] The value to look up.
+      # @return [String, nil] The symbolic name as a string, or nil if not found.
+      def self.name_for(value)
+        VALUES.key(value)&.to_s
+      end
+    end
+  end
+end

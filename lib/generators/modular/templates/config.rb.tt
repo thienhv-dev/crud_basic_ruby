@@ -1,0 +1,8 @@
+# This module defines a configuration namespace within a modular application structure.
+# It is intended to hold configuration settings and logic for the application.
+
+module <%= module_name.camelize %>
+  module Config
+    # Add your configuration here
+  end
+end

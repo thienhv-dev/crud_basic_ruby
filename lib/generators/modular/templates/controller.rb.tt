@@ -1,0 +1,18 @@
+# This module defines a controller class for handling HTTP requests in a modular structure.
+# It is designed to be used as a template for generating new controllers.
+
+module <%= module_name.camelize %>
+  module Http
+    module Controllers
+      # The <%= name.camelize %> controller inherits from ApplicationController
+      # and provides an `index` action that renders a JSON response.
+      class <%= name.camelize %> < ApplicationController
+        # The `index` action responds with a JSON object containing a message.
+        # The message includes the name of the controller and the action.
+        def index
+          render json: { message: "<%= name.camelize %>#index" }
+        end
+      end
+    end
+  end
+end

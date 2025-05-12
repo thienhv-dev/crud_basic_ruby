@@ -12,10 +12,18 @@ cp .env.example .env
 APP_CODE=RB
 COMPOSE_PROJECT_NAME=ruby
 ```
+After that, lets following below command to build the docker containers:
 
+*Note: If you are using M1 or M2 chip, let using this command `export DOCKER_DEFAULT_PLATFORM=linux/amd64` to set up docker compatible with your OS before building the containers.*
 ```shell
 docker-compose build
 ```
+
+## You need to install the Ruby dependencies (gems) by running:
+```shell
+docker-compose run --rm app bundle install
+```
+
 Waiting for a while to finish building containers. Then start run containers.
 ```shell
 docker-compose up -d
@@ -88,4 +96,48 @@ MAIL_PASSWORD=null
 MAIL_ENCRYPTION=null
 MAIL_FROM_ADDRESS=info@example.com
 MAIL_FROM_NAME="${APP_NAME}"
+```
+
+## Module Structure
+```shell
+Modules/
+├── User/
+    ├── Config/
+    │  └── config.php   #==> Declare all config of this module
+    ├── Database/
+    │  ├── Migrations/  #==> Contains all migration files
+    │  └── Seeders/     #==> Contains all seeder command
+    ├── Entities/       #==> Contains all model entry of this module
+    ├── Http/
+    │  ├── Controllers/ #==> Where we put all controller files to handler request
+    │  ├── Middleware/  #==> Contains all middleware if needed
+    │  └── Requests/    #==> Contains all request validation
+    ├── Routes/
+    │  ├── api.php      #==> Define all api route
+    │  └── web.php      #==> Define all web route
+    ├── Rules/          #==> Contains all validation rules
+    ├── Services/       #==> Where we put all service class to handler business logic
+    ├── Repositories/   #==> Repositories is used to abstract the data layer. Place of storage Business logic interacts to database
+    ├── Enums/          #==> Where we put all const used in module
+    ├── Tests/  
+    │  ├── Feature/     #==> Write unit test as feature
+    │  └── Unit/        #==> Write unit test as unit
+    ├── Transformers/   #==> Contains all resource collection to format response   
+```
+
+### Some usually command when we're working with module
+
+Example:
+
+```shell
+rails g modular:make ModuleName --api                                     Create a new Module with CRUD system
+rails g modular:make_route ModuleName                                     Generate Route of module
+rails g modular:make_config ModuleName                                    Generate Config file of module
+rails g modular:make_migration create_abc_table ModuleName                Generate Migration of module
+rails g modular:make_model ABC ModuleName                                 Generate Model of module
+rails g modular:make_controller ABCController ModuleName                  Generate Controller of module
+rails g modular:make_service ABCService ModuleName --with-base-repository Generate Service CRUD with base repository of module
+rails g modular:make_repository ABCRepository ModuleName --model=ABC      Generate Repository of module
+rails g modular:make_enum ABCEnum ModuleName                              Generate Enum of module
+rails g modular:make_resource ABCResource ModuleName                      Generate Transformers of module
 ```

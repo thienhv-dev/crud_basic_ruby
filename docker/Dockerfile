@@ -13,14 +13,23 @@ WORKDIR /var/www/html
 
 # Install base packages
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y curl libjemalloc2 libvips sqlite3 libyaml-dev && \
-    rm -rf /var/lib/apt/lists /var/cache/apt/archives
+    apt-get install --no-install-recommends -y \
+      curl \
+      libjemalloc2 \
+      libvips \
+      sqlite3 \
+      libsqlite3-dev \
+      libyaml-dev \
+      build-essential \
+      git \
+      && rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set development environment
 ENV RAILS_ENV="development" \
     BUNDLE_DEPLOYMENT="1" \
     BUNDLE_PATH="/var/www/html/vendor/bundle" \
     BUNDLE_WITHOUT="development" \
+    BUNDLE_FROZEN="false" \
     PATH="./bin:$PATH"
 
 # --- BUILD STAGE ---

@@ -1,0 +1,24 @@
+# This module defines a repository class for interacting with an ActiveRecord model.
+# It is designed to encapsulate database operations for a specific model.
+
+module <%= @module_name.camelize %>
+  module Repositories
+    # The <%= @repository_name.camelize %> class provides methods to interact with the database
+    # using the specified ActiveRecord model.
+    class <%= @repository_name.camelize %>
+      # Initializes the repository with an ActiveRecord model.
+      #
+      # @param model [Class] ActiveRecord model class, default: <%= @model_name.camelize %>
+      def initialize(model = <%= @model_name.camelize %>)
+        @model = model
+      end
+
+      # Retrieves all records from the associated model.
+      #
+      # @return [ActiveRecord::Relation] A collection of all records for the model.
+      def all
+        @model.all
+      end
+    end
+  end
+end

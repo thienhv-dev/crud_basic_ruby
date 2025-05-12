@@ -1,0 +1,16 @@
+# This module defines a service class within a modular application structure.
+# It is designed to encapsulate business logic and interact with a repository.
+
+module <%= @module_name %>
+  module Services
+    # The <%= @service_name.camelize %> class provides a service layer for handling
+    # business logic and delegating database operations to a repository.
+    class <%= @service_name.camelize %>
+      # Initializes the service with a repository instance.
+      # The repository is responsible for interacting with the database.
+      def initialize
+        @repository = <%= @module_name %>::Repositories::<%= @repository_name.camelize %>.new
+      end
+    end
+  end
+end
