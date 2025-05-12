@@ -1,0 +1,20 @@
+# frozen_string_literal: true
+
+# This is the seed file for the <%= model_name.camelize %> module
+# It will create some default records for this module
+
+module <%= model_name.camelize %>
+  class Seed
+    def self.run
+      # Example seed data for <%= model_name.camelize %>::Entities::<%= model_name.singularize.camelize %>
+      <%= model_name.camelize %>::Entities::<%= model_name.singularize.camelize %>.create!(
+        # name: 'Name Test'
+      )
+
+      # Add other seeds for your models as needed
+    end
+  end
+end
+
+# Run the seed data for <%= model_name.camelize %> module
+<%= model_name.camelize %>::Seed.run

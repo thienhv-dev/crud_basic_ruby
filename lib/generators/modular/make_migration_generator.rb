@@ -30,20 +30,11 @@ module Modular
       # Creates the target directory if it does not exist.
       empty_directory target_path
 
-      # Copies the template file to the target path, replacing placeholders with actual values.
-      migration_template "migration.rb.tt", File.join(target_path, "#{self.class.next_migration_number(target_path)}_#{migration_name.underscore}.rb")
-    end
+      timestamp = Time.now.strftime('%Y%m%d%H%M%S')
+      # Constructs the migration file name by combining the timestamp and the underscored migration name.
+      migration_file_name = "#{timestamp}_#{migration_name.underscore}.rb"
 
-    # Generates the next migration number based on the current time or increments the previous number.
-    # @param dirname [String] The directory where migrations are stored.
-    # @return [String] The next migration number as a string.
-    def self.next_migration_number(dirname)
-      if @prev_migration_nr
-        @prev_migration_nr += 1
-      else
-        @prev_migration_nr = current_migration_number(dirname) + 1
-      end
-      @prev_migration_nr.to_s
+      template "migration.rb.tt", File.join(target_path, migration_file_name)
     end
   end
 end
