@@ -147,5 +147,5 @@ Run command to seed data to database:
 ```shell
 rails db:migrate                Run all migration
 rails db:seed                   Run all seeder
-rails db:seed:{name_file}:run   Run seeder file name in modules
+rails db:seed:run[ModuleName]   Run seeder in modules
 ```
