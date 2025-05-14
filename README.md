@@ -100,29 +100,28 @@ MAIL_FROM_NAME="${APP_NAME}"
 
 ## Module Structure
 ```shell
-Modules/
-├── User/
-    ├── Config/
-    │  └── config.php   #==> Declare all config of this module
-    ├── Database/
-    │  ├── Migrations/  #==> Contains all migration files
-    │  └── Seeders/     #==> Contains all seeder command
-    ├── Entities/       #==> Contains all model entry of this module
-    ├── Http/
-    │  ├── Controllers/ #==> Where we put all controller files to handler request
-    │  ├── Middleware/  #==> Contains all middleware if needed
-    │  └── Requests/    #==> Contains all request validation
-    ├── Routes/
-    │  ├── api.php      #==> Define all api route
-    │  └── web.php      #==> Define all web route
-    ├── Rules/          #==> Contains all validation rules
-    ├── Services/       #==> Where we put all service class to handler business logic
-    ├── Repositories/   #==> Repositories is used to abstract the data layer. Place of storage Business logic interacts to database
-    ├── Enums/          #==> Where we put all const used in module
+modules/
+├── user/
+    ├── config/
+    │  └── config.rb    #==> Declare all config of this module
+    ├── database/
+    │  ├── migrations/  #==> Contains all migration files
+    │  └── seeders/     #==> Contains all seeder command
+    ├── entities/       #==> Contains all model entry of this module
+    ├── http/
+    │  ├── controllers/ #==> Where we put all controller files to handler request
+    │  ├── middleware/  #==> Contains all middleware if needed
+    ├── routes/
+    │  ├── api.rb       #==> Define all api route
+    │  └── web.rb       #==> Define all web route
+    ├── rules/          #==> Contains all validation rules
+    ├── services/       #==> Where we put all service class to handler business logic
+    ├── repositories/   #==> Repositories is used to abstract the data layer. Place of storage Business logic interacts to database
+    ├── enums/          #==> Where we put all const used in module
     ├── Tests/  
-    │  ├── Feature/     #==> Write unit test as feature
-    │  └── Unit/        #==> Write unit test as unit
-    ├── Transformers/   #==> Contains all resource collection to format response   
+    │  ├── feature/     #==> Write unit test as feature
+    │  └── unit/        #==> Write unit test as unit
+    ├── transformers/   #==> Contains all resource collection to format response   
 ```
 
 ### Some usually command when we're working with module
@@ -148,4 +147,56 @@ Run command to seed data to database:
 rails db:migrate                Run all migration
 rails db:seed                   Run all seeder
 rails db:seed:run[ModuleName]   Run seeder in modules
+```
+
+## Format error response:
+The code information is in the file `config/locales/api.yml`
+```json
+{
+  "error": {
+    "status_code": 422,
+    "code": "Unprocessable Content",
+    "message": "Validation failed: Name is too long (maximum is 1 character), Description is too long (maximum is 1 character)",
+    "error_code": "RB-422",
+    "errors": [
+      {
+        "code": 1006,
+        "field": "name",
+        "message": "Name is too long (maximum is 1 character)"
+      },
+      {
+        "code": 1006,
+        "field": "description",
+        "message": "Description is too long (maximum is 1 character)"
+      }
+    ]
+  }
+}
+```
+List validation code
+```
+  1000 => "The field is required",
+  1001 => "The field is not valid",
+  1002 => "The field must be accepted",
+  1003 => "The field can't be blank",
+  1004 => "The field must be present",
+  1005 => "The field is too short",
+  1006 => "The field is too long",
+  1007 => "The field has wrong length",
+  1008 => "The field is already taken",
+  1009 => "The field is invalid",
+  1010 => "The value is not included in the list",
+  1011 => "The value is reserved",
+  1012 => "The field is required",
+  1013 => "The field is not a number",
+  1014 => "The value must be greater than required",
+  1015 => "The value must be greater than or equal to required",
+  1016 => "The value must be equal to required",
+  1017 => "The value must be less than required",
+  1018 => "The value must be less than or equal to required",
+  1019 => "The value must be other than restricted",
+  1020 => "The value must be an integer",
+  1021 => "The value must be odd",
+  1022 => "The value must be even",
+  1100 => "Record not found"
 ```

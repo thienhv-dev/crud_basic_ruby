@@ -4,9 +4,9 @@
 module <%= module_name.camelize %>
   module Http
     module Controllers
-      # The <%= name.camelize %> controller inherits from ApplicationController
+      # The <%= name.camelize %> controller inherits from Core::Http::Controllers::BaseController
       # and provides an `index` action that renders a JSON response.
-      class <%= name.camelize %> < ApplicationController
+      class <%= name.camelize %> < Core::Http::Controllers::BaseController
         # The `index` action responds with a JSON object containing a message.
         # The message includes the name of the controller and the action.
         def index

@@ -1,0 +1,87 @@
+# frozen_string_literal: true
+
+# The ResponseHandler module provides methods to standardize API responses.
+# It includes methods for rendering success responses with optional pagination
+# and error responses with detailed error information.
+require_relative '../../../modules/core/config/config'
+
+module Core
+  module Transformers
+    module ResponseHandler
+      extend ActiveSupport::Concern
+
+      # Renders a success response in JSON format.
+      # If the data supports pagination, it includes pagination details in the response.
+      #
+      # @param data [Object] The data to be rendered in the response. Can be a paginated collection or any object.
+      # @param status [Symbol] The HTTP status for the response (default: :ok).
+      def render_success(data = {}, status: :ok)
+        if data.respond_to?(:as_json) && data.respond_to?(:current_page)
+          # Handles paginated data by including pagination details in the response.
+          base_url = request.base_url + request.path
+          query_params = request.query_parameters.except(:page)
+
+          current_page = data.current_page
+          total_pages = data.total_pages
+          per_page = data.limit_value
+          total_count = data.total_count
+
+          pagination = {
+            current_page: current_page,
+            first_page_url: url_with_page(base_url, query_params, 1),
+            from: (current_page - 1) * per_page + 1,
+            last_page: total_pages,
+            last_page_url: url_with_page(base_url, query_params, total_pages),
+            next_page_url: (current_page < total_pages) ? url_with_page(base_url, query_params, current_page + 1) : nil,
+            path: base_url,
+            per_page: per_page,
+            prev_page_url: (current_page > 1) ? url_with_page(base_url, query_params, current_page - 1) : nil,
+            to: [current_page * per_page, total_count].min,
+            total: total_count
+          }
+
+          render json: {
+            data: data,
+            pagination: pagination,
+          }, status: status
+        else
+          # Handles non-paginated data.
+          render json: {
+            data: data
+          }, status: status
+        end
+      end
+
+      # Renders an error response in JSON format.
+      #
+      # @param message [String] A human-readable error message (default: "ERROR").
+      # @param error_code [String, nil] A custom error code (default: generated from app code and HTTP status).
+      # @param errors [Array] An array of detailed error objects (default: empty array).
+      # @param status [Symbol] The HTTP status for the response (default: :unprocessable_entity).
+      def render_error(message: "ERROR", error_code: nil, errors: [], status: :unprocessable_entity)
+        render json: {
+          error: {
+            status_code: Rack::Utils.status_code(status),
+            code: Rack::Utils::HTTP_STATUS_CODES[Rack::Utils.status_code(status)],
+            message: message,
+            error_code: error_code || "#{Core::Config.config[:app_code]}-#{Rack::Utils.status_code(status)}",
+            errors: errors
+          }
+        }, status: status
+      end
+
+      private
+
+      # Constructs a URL with the specified page number for pagination.
+      #
+      # @param base_url [String] The base URL of the request.
+      # @param query_params [Hash] The query parameters for the request.
+      # @param page [Integer] The page number to include in the URL.
+      # @return [String] The constructed URL with the page parameter.
+      def url_with_page(base_url, query_params, page)
+        query_string = query_params.merge(page: page).to_query
+        "#{base_url}?#{query_string}"
+      end
+    end
+  end
+end
