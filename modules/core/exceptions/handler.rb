@@ -27,6 +27,8 @@ module Core
           handle_not_found_exception(exception)
         when ActionController::ParameterMissing
           handle_parameter_missing_exception(exception)
+        when Core::Exceptions::UnauthorizedError
+          handle_unauthorized_exception(exception)
         else
           handle_internal_error(exception)
         end
@@ -99,6 +101,18 @@ module Core
           status: :internal_server_error
         )
       end
+
+      # Handles unauthorized access errors (HTTP 401).
+      #
+      # @param exception [Exception] The exception indicating unauthorized access.
+      def handle_unauthorized_exception(exception)
+        render_error(
+          message: exception.message || "Unauthorized access.",
+          error_code: error_code_for(:unauthorized),
+          status: :unauthorized
+        )
+      end
+
 
       # Generates an error code based on the application code and HTTP status.
       #

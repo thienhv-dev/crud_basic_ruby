@@ -150,7 +150,7 @@ rails db:seed:run[ModuleName]   Run seeder in modules
 ```
 
 ## Format error response:
-The code information is in the file `config/locales/api.yml`
+The code information is in the file `modules/core/config/config.rb`
 ```json
 {
   "error": {
@@ -173,7 +173,7 @@ The code information is in the file `config/locales/api.yml`
   }
 }
 ```
-List validation code
+## Error code List
 ```
   1000 => "The field is required",
   1001 => "The field is not valid",
@@ -199,4 +199,37 @@ List validation code
   1021 => "The value must be odd",
   1022 => "The value must be even",
   1100 => "Record not found"
+```
+
+## Seed dữ liệu
+
+Để tạo dữ liệu mẫu cho **module `User`**, bạn có thể chạy lệnh sau:
+
+```bash
+rails db:seed:run[User]
+```
+
+| Trường   | Giá trị            |
+|----------|--------------------|
+| Email    | admin@example.com  |
+| Mật khẩu | admin123           |
+
+
+## API List
+Module: Auth
+
+| Method | Endpoint         | Description |
+|--------|------------------|-------------|
+| POST   | /api/v1/login | Login       |
+| DELETE | /api/v1/logout | Logout      |
+| GET    | /api/v1/me    | Get user info |
+
+For example: Body request login: `/api/v1/auth/login`
+```json
+{
+  "user": {
+    "email": "admin@example.com",
+    "password": "admin123"
+  }
+}
 ```
