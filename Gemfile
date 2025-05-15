@@ -41,6 +41,7 @@ gem 'pg', '~> 1.1'
 gem 'kaminari'
 gem "devise", "~> 4.9"
 gem "devise-jwt"
+gem 'faker'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

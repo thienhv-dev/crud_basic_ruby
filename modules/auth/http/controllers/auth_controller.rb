@@ -46,7 +46,7 @@ module Auth
         def respond_to_on_destroy
           raise Core::Exceptions::UnauthorizedError unless current_user
 
-          success_with_message
+          render_success_with_message
         end
       end
     end

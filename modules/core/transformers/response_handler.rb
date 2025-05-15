@@ -16,36 +16,12 @@ module Core
       # @param data [Object] The data to be rendered in the response. Can be a paginated collection or any object.
       # @param status [Symbol] The HTTP status for the response (default: :ok).
       def render_success(data = {}, status: :ok)
-        if data.respond_to?(:as_json) && data.respond_to?(:current_page)
-          # Handles paginated data by including pagination details in the response.
-          base_url = request.base_url + request.path
-          query_params = request.query_parameters.except(:page)
-
-          current_page = data.current_page
-          total_pages = data.total_pages
-          per_page = data.limit_value
-          total_count = data.total_count
-
-          pagination = {
-            current_page: current_page,
-            first_page_url: url_with_page(base_url, query_params, 1),
-            from: (current_page - 1) * per_page + 1,
-            last_page: total_pages,
-            last_page_url: url_with_page(base_url, query_params, total_pages),
-            next_page_url: (current_page < total_pages) ? url_with_page(base_url, query_params, current_page + 1) : nil,
-            path: base_url,
-            per_page: per_page,
-            prev_page_url: (current_page > 1) ? url_with_page(base_url, query_params, current_page - 1) : nil,
-            to: [current_page * per_page, total_count].min,
-            total: total_count
-          }
-
+        if paginated?(data)
           render json: {
-            data: data,
-            pagination: pagination,
+            data: extract_data(data),
+            pagination: build_pagination(data)
           }, status: status
         else
-          # Handles non-paginated data.
           render json: {
             data: data
           }, status: status
@@ -55,7 +31,7 @@ module Core
       # Renders a success response with a custom message in JSON format.
       #
       # @param message [String] The custom success message to include in the response (default: "OK").
-      def success_with_message(message = 'OK')
+      def render_success_with_message(message = 'OK')
         render json: {
           data: {
             message: message,
@@ -93,6 +69,56 @@ module Core
       def url_with_page(base_url, query_params, page)
         query_string = query_params.merge(page: page).to_query
         "#{base_url}?#{query_string}"
+      end
+
+      # Checks if the given data supports pagination by verifying if it responds to
+      # `as_json` and `current_page` methods.
+      #
+      # @param data [Object] The data to check for pagination support.
+      # @return [Boolean] True if the data supports pagination, false otherwise.
+      def paginated?(data)
+        data.respond_to?(:as_json) && data.respond_to?(:current_page)
+      end
+
+      # Extracts the data to be rendered in the response.
+      # If the data supports pagination, it returns the data as is.
+      # Otherwise, it returns transformed data or the original data.
+      #
+      # @param data [Object] The data to extract.
+      # @return [Object] The extracted data.
+      def extract_data(data)
+        return data if paginated?(data)
+        @transformed_data || data
+      end
+
+      # Builds a pagination metadata hash for the given paginated data.
+      # Includes details such as current page, total pages, per-page count,
+      # and URLs for navigation between pages.
+      #
+      # @param paginated [Object] The paginated data object.
+      # @return [Hash] A hash containing pagination metadata.
+      def build_pagination(paginated)
+        base_url = request.base_url + request.path
+        query_params = request.query_parameters.except(:page)
+
+        current_page = paginated.current_page
+        total_pages = paginated.total_pages
+        per_page = paginated.limit_value
+        total_count = paginated.total_count
+
+        {
+          current_page: current_page,
+          first_page_url: url_with_page(base_url, query_params, 1),
+          from: (current_page - 1) * per_page + 1,
+          last_page: total_pages,
+          last_page_url: url_with_page(base_url, query_params, total_pages),
+          next_page_url: (current_page < total_pages) ? url_with_page(base_url, query_params, current_page + 1) : nil,
+          path: base_url,
+          per_page: per_page,
+          prev_page_url: (current_page > 1) ? url_with_page(base_url, query_params, current_page - 1) : nil,
+          to: [current_page * per_page, total_count].min,
+          total: total_count
+        }
       end
     end
   end
