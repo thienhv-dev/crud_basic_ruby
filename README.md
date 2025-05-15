@@ -216,6 +216,9 @@ rails db:seed:run[User]
 
 
 ## API List
+
+---
+
 Module: Auth
 
 | Method | Endpoint         | Description |
@@ -232,4 +235,19 @@ For example: Body request login: `/api/v1/auth/login`
     "password": "admin123"
   }
 }
+```
+---
+Module: Category
+
+| Method | Endpoint         | Description |
+|--------|------------------|-------------|
+| GET    | /api/v1/categories | Get search categories |
+| GET    | /api/v1/categories/:id | Get category by id |
+| POST   | /api/v1/categories | Create new category |
+| PUT    | /api/v1/categories/:id | Update category by id |
+| DELETE | /api/v1/categories/:id | Delete category by id |
+
+Để tạo dữ liệu mẫu cho **module `Category`**, bạn có thể chạy lệnh sau:
+```bash
+rails db:seed:run[Category]
 ```
