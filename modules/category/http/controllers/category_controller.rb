@@ -22,8 +22,9 @@ module Category
             search: params[:search]
           )
 
-          @transformed_data = categories.map { |c| Category::Transformers::ListResource.transform(c) }
-          render_success(categories)
+          transformed = categories.map { |c| Category::Transformers::ListResource.transform(c) }
+
+          render_success(categories, transformed_data: transformed)
         end
 
         def show

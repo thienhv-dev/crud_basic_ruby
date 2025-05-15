@@ -15,10 +15,10 @@ module Core
       #
       # @param data [Object] The data to be rendered in the response. Can be a paginated collection or any object.
       # @param status [Symbol] The HTTP status for the response (default: :ok).
-      def render_success(data = {}, status: :ok)
+      def render_success(data = {}, status: :ok, transformed_data: nil)
         if paginated?(data)
           render json: {
-            data: extract_data(data),
+            data: transformed_data || extract_data(data),
             pagination: build_pagination(data)
           }, status: status
         else
