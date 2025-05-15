@@ -22,6 +22,7 @@ docker-compose build
 ## You need to install the Ruby dependencies (gems) by running:
 ```shell
 docker-compose run --rm app bundle install
+docker-compose run --rm app rails credentials:edit
 ```
 
 Waiting for a while to finish building containers. Then start run containers.
