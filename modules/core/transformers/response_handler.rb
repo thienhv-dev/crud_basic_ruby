@@ -52,6 +52,18 @@ module Core
         end
       end
 
+      # Renders a success response with a custom message in JSON format.
+      #
+      # @param message [String] The custom success message to include in the response (default: "OK").
+      def success_with_message(message = 'OK')
+        render json: {
+          data: {
+            message: message,
+            code: 'OK'
+          }
+        }, status: :ok
+      end
+
       # Renders an error response in JSON format.
       #
       # @param message [String] A human-readable error message (default: "ERROR").

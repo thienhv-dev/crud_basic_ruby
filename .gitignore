@@ -54,3 +54,5 @@ vendor/ruby
 .DS_Store
 .env
 .env.*
+
+/config/master.key

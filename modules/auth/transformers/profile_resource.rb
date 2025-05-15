@@ -1,11 +1,11 @@
 # This module defines a transformer class within a modular application structure.
 # It is designed to handle the transformation of data into a specific format.
 
-module <%= @module_name.camelize %>
+module Auth
   module Transformers
-    # The <%= @resource_name.camelize %>Transformer class provides a method
+    # The ProfileResource class provides a method
     # to transform data objects into a hash format.
-    class <%= @resource_name.camelize %>
+    class ProfileResource
       # Transforms the given data object into a hash.
       #
       # @param data [Object] The data object to be transformed.
@@ -13,7 +13,8 @@ module <%= @module_name.camelize %>
       def self.transform(data)
         {
           id: data.id,
-          # Add more fields here
+          email: data.email,
+          created_at: data.created_at,
         }
       end
     end
